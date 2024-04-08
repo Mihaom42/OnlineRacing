@@ -70,8 +70,6 @@ void AVehicle::BeginPlay()
 
 void AVehicle::Tick(float Delta)
 {
-	//VehicleVelocity = CarMesh->GetPhysicsLinearVelocity();
-
 	Super::Tick(Delta);
 }
 

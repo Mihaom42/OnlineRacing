@@ -70,8 +70,6 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_VehicleTransform)
 	FTransform VehicleTransform;
 
-	FVector VehicleVelocity;
-
 	UFUNCTION()
 	void OnRep_VehicleTransform();
 };
