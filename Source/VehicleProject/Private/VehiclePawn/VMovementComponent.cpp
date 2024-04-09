@@ -25,7 +25,7 @@ void UVMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (GetOwnerRole() == ROLE_AutonomousProxy || GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy)
+	if (GetOwnerRole() == ROLE_AutonomousProxy || GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy || GetOwnerRole() == ROLE_Authority)
 	{
 		LastMove = CreateMove(DeltaTime);
 		SimulateMove(LastMove);
