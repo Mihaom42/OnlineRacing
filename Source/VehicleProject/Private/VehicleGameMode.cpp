@@ -21,26 +21,26 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	//posses a pawn
-	TArray<AActor*> PawnArray;
-	UGameplayStatics::GetAllActorsOfClass(this, DefaultPawnClass, PawnArray);
+	//TArray<AActor*> PawnArray;
+	//UGameplayStatics::GetAllActorsOfClass(this, DefaultPawnClass, PawnArray);
 
-	if (PawnArray.Num() > 0)
-	{
-		for (AActor* Actor : PawnArray)
-		{
-			AVehicle* VehiclePlayer = Cast<AVehicle>(Actor);
-			if (VehiclePlayer != nullptr && !VehiclePlayer->IsPawnControlled())
-			{
-				NewPlayer->Possess(VehiclePlayer);
-				VehiclePlayer->SetOwner(NewPlayer);
-			}
-		}
-	}
+	//if (PawnArray.Num() > 0)
+	//{
+	//	for (AActor* Actor : PawnArray)
+	//	{
+	//		AVehicle* VehiclePlayer = Cast<AVehicle>(Actor);
+	//		if (VehiclePlayer != nullptr && !VehiclePlayer->IsPawnControlled())
+	//		{
+	//			NewPlayer->Possess(VehiclePlayer);
+	//			VehiclePlayer->SetOwner(NewPlayer);
+	//		}
+	//	}
+	//}
 
-	if (GetNumPlayers() == 2)
-	{
-		StartGame();
-	}
+	//if (GetNumPlayers() == 2)
+	//{
+	//	StartGame();
+	//}
 }
 
 void AVehicleGameMode::StartGame() const

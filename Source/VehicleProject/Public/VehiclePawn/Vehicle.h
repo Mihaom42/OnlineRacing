@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "InputActionValue.h"
+#include "VehiclePawn/VMovementComponentReplicator.h"
+#include "VehiclePawn/VMovementComponent.h"
 #include "Vehicle.generated.h"
 
 UCLASS()
@@ -41,22 +42,10 @@ public:
 	class USpringArmComponent* CameraBoom;*/
 
 	UPROPERTY(VisibleAnywhere)
-	class UVehicleMovementComponent* MovementComponent;
+	class UVMovementComponent* MovementComp;
 
-	/* The speed our ship moves around the level */
-	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
-	float MaxMoveSpeed;
-
-	int CurrentSpeed = 0;
-
-	UFUNCTION(Server, Reliable)
-	void Server_SendPlayerTransformToServer(FTransform NewTransform);
-
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-	//// Static names for axis bindings
-	//static const FName MoveForwardBinding;
-	//static const FName MoveRightBinding;
+	UPROPERTY(VisibleAnywhere)
+	class UVMovementComponentReplicator* MovementReplicator;
 
 protected:
 	virtual void BeginPlay() override;
@@ -66,10 +55,4 @@ private:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	//void PushHandbrake(const FInputActionValue& Value);
-
-	UPROPERTY(ReplicatedUsing = OnRep_VehicleTransform)
-	FTransform VehicleTransform;
-
-	UFUNCTION()
-	void OnRep_VehicleTransform();
 };

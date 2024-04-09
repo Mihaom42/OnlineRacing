@@ -26,20 +26,20 @@ struct FVehicleMove
 	//bool IsValidMove() const { return FMath::Abs(Throttle) <= 1.0f && FMath::Abs(SteeringThrow) <= 1; };
 };
 
-USTRUCT()
-struct FVehicleState
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY()
-	FTransform Transform;
-
-	UPROPERTY()
-	FVector Velocity;
-
-	UPROPERTY()
-	FVehicleMove LastMove;
-};
+//USTRUCT()
+//struct FVehicleState
+//{
+//	GENERATED_USTRUCT_BODY()
+//
+//	UPROPERTY()
+//	FTransform Transform;
+//
+//	UPROPERTY()
+//	FVector Velocity;
+//
+//	UPROPERTY()
+//	FVehicleMove LastMove;
+//};
 
 UCLASS()
 class VEHICLEPROJECT_API UVehicleMovementComponent : public UPawnMovementComponent
@@ -63,4 +63,12 @@ private:
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FVehicleMove Move);
+
+	FVector GetAirResistance();
+
+	FVector GetRollingResistance();
+
+	void ApplyRotation(float DeltaTime, float InSteeringThrow);
+
+	void UpdateLocationFromVelocity(float DeltaTime);
 };

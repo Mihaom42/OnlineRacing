@@ -5,11 +5,11 @@
 #include "EnhancedInputComponent.h"
 #include "VehiclePawn/VehicleController.h"
 #include "Net/UnrealNetwork.h"
-#include "VehiclePawn/VehicleMovementComponent.h"
+#include "VehiclePawn/VMovementComponent.h"
 
 AVehicle::AVehicle()
 {
-	//PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true;
 
 	CarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CarMesh"));
 	//CarMesh->SetSimulatePhysics(true);
@@ -35,20 +35,9 @@ AVehicle::AVehicle()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(SpringArm);
 	CameraComponent->bUsePawnControlRotation = false;	// Camera does not rotate relative to arm
-	
-	bReplicates = true;
-	//bReplicateMovement = false;
 
-	MovementComponent = CreateDefaultSubobject<UVehicleMovementComponent>(TEXT("MovementComponent"));
-	MovementComponent->UpdatedComponent = RootComponent;
-
-	/*Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	Camera->SetupAttachment(SpringArm);
-	Camera->bUsePawnControlRotation = false;*/
-
-	MaxMoveSpeed = 400.f;
-
-	bReplicates = true;
+	MovementComp = CreateDefaultSubobject<UVMovementComponent>(TEXT("MovementComponent"));
+	MovementReplicator = CreateDefaultSubobject<UVMovementComponentReplicator>(TEXT("MovementReplicator"));
 
 }
 
@@ -88,41 +77,31 @@ void AVehicle::SetupPlayerInputComponent(class UInputComponent* PlayerInputCompo
 
 void AVehicle::MoveForward(float Value)
 {
-	//FVector2D MovementVector = Value.Get<FVector2D>();
+	////FVector2D MovementVector = Value.Get<FVector2D>();
+	//if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent)) 
+	//{
+	//	MovementComponent->AddInputVector(GetActorForwardVector() * Value);
+	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Y: %f"), Value));
+	//}
+	//Server_SendPlayerTransformToServer(this->GetTransform());
 
-	if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent)) 
+	if (MovementComp != nullptr)
 	{
-		MovementComponent->AddInputVector(GetActorForwardVector() * Value);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Y: %f"), Value));
+		MovementComp->SetThrottle(Value);
 	}
-
-	Server_SendPlayerTransformToServer(this->GetTransform());
 }
 
 void AVehicle::MoveRight(float Value)
 {
-	if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent))
+	//if (MovementComponent && (MovementComponent->UpdatedComponent == RootComponent))
+	//{
+	//	MovementComponent->AddInputVector(GetActorRightVector() * Value);
+	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Y: %f"), Value));
+	//}
+	//Server_SendPlayerTransformToServer(this->GetTransform());
+
+	if (MovementComp != nullptr)
 	{
-		MovementComponent->AddInputVector(GetActorRightVector() * Value);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Y: %f"), Value));
+		MovementComp->SetSteeringThrow(Value);
 	}
-
-	Server_SendPlayerTransformToServer(this->GetTransform());
-}
-
-void AVehicle::OnRep_VehicleTransform()
-{
-	SetActorTransform(VehicleTransform);
-}
-
-void AVehicle::Server_SendPlayerTransformToServer_Implementation(FTransform NewTransform)
-{
-	VehicleTransform = NewTransform;
-}
-
-void AVehicle::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(AVehicle, VehicleTransform);
 }
