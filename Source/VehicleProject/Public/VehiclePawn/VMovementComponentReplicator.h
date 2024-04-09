@@ -39,6 +39,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UVMovementComponent* MoveComponent;
 
@@ -46,18 +48,32 @@ public:
 	USceneComponent* MeshOffsetRoot;
 
 private:
-	UPROPERTY(/*ReplicatedUsing = OnRep_ServerState*/)
+	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
 	FVehicleState ServerState;
 
-	/*UFUNCTION()
-	void OnRep_ServerState();*/
+	UFUNCTION()
+	void OnRep_ServerState();
+
+	void SimulatedProxy_OnRep_ServerState();
+
+	void AutonomousProxy_OnRep_ServerState();
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FVehicleMovement Move);
 
 	void UpdateServerState(const FVehicleMovement& Move);
 
+	void ClearAcknowledgedMoves(FVehicleMovement LastMove);
+
 	TArray<FVehicleMovement> UnacknowledgedMoves;
 
+	FTransform ClientStartTransform;
+
+	FVector ClientStartVelocity;
+
 	float ClientSimulatedTime;
+
+	float ClientTimeSinceUpdate;
+
+	float ClientTimeBetweenLastUpdates;
 };

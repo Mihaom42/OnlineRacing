@@ -2,6 +2,7 @@
 
 
 #include "VehiclePawn/VMovementComponentReplicator.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 UVMovementComponentReplicator::UVMovementComponentReplicator()
@@ -58,7 +59,7 @@ void UVMovementComponentReplicator::Server_SendMove_Implementation(FVehicleMovem
 
 	MoveComponent->SimulateMove(Move);
 
-	//UpdateServerState(Move);
+	UpdateServerState(Move);
 }
 
 bool UVMovementComponentReplicator::Server_SendMove_Validate(FVehicleMovement Move)
@@ -78,4 +79,79 @@ bool UVMovementComponentReplicator::Server_SendMove_Validate(FVehicleMovement Mo
 	}
 
 	return true;
+}
+
+void UVMovementComponentReplicator::OnRep_ServerState()
+{
+	switch (GetOwnerRole())
+	{
+	case ROLE_AutonomousProxy:
+		AutonomousProxy_OnRep_ServerState();
+		break;
+	case ROLE_SimulatedProxy:
+		SimulatedProxy_OnRep_ServerState();
+		break;
+	default:
+		break;
+	}
+}
+
+void UVMovementComponentReplicator::SimulatedProxy_OnRep_ServerState()
+{
+	if (MoveComponent == nullptr)
+	{
+		return;
+	}
+
+	ClientTimeBetweenLastUpdates = ClientTimeSinceUpdate;
+
+	ClientTimeSinceUpdate = 0;
+
+	if (MeshOffsetRoot != nullptr)
+	{
+		ClientStartTransform.SetLocation(MeshOffsetRoot->GetComponentLocation());
+		ClientStartTransform.SetRotation(MeshOffsetRoot->GetComponentQuat());
+	}
+
+	ClientStartVelocity = MoveComponent->GetVelocity();
+
+	GetOwner()->SetActorTransform(ServerState.Transform);
+}
+
+void UVMovementComponentReplicator::AutonomousProxy_OnRep_ServerState()
+{
+	if (MoveComponent == nullptr)
+	{
+		return;
+	}
+
+	GetOwner()->SetActorTransform(ServerState.Transform);
+
+	MoveComponent->SetVelocity(ServerState.Velocity);
+
+	ClearAcknowledgedMoves(ServerState.LastMove);
+
+	for (const FVehicleMovement& Move : UnacknowledgedMoves)
+	{
+		MoveComponent->SimulateMove(Move);
+	}
+}
+
+void UVMovementComponentReplicator::ClearAcknowledgedMoves(FVehicleMovement LastMove)
+{
+	TArray<FVehicleMovement> NewMoves;
+
+	for (const FVehicleMovement& Move : UnacknowledgedMoves)
+	{
+		if (Move.Time > LastMove.Time) NewMoves.Add(Move);
+	}
+
+	UnacknowledgedMoves = NewMoves;
+}
+
+void UVMovementComponentReplicator::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UVMovementComponentReplicator, ServerState);
 }
