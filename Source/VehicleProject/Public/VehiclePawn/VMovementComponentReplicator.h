@@ -40,8 +40,24 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UVMovementComponent* MovementComponent;
+	UVMovementComponent* MoveComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* MeshOffsetRoot;
+
+private:
+	UPROPERTY(/*ReplicatedUsing = OnRep_ServerState*/)
+	FVehicleState ServerState;
+
+	/*UFUNCTION()
+	void OnRep_ServerState();*/
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_SendMove(FVehicleMovement Move);
+
+	void UpdateServerState(const FVehicleMovement& Move);
+
+	TArray<FVehicleMovement> UnacknowledgedMoves;
+
+	float ClientSimulatedTime;
 };

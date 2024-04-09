@@ -29,9 +29,6 @@ public:
 	UPROPERTY(Category = Camera, VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* CameraComponent;
 
-	/*UPROPERTY(Category = Camera, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;*/
-
 	UPROPERTY(VisibleAnywhere)
 	class UVMovementComponent* MovementComp;
 
