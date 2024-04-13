@@ -35,6 +35,12 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UVMovementComponentReplicator* MovementReplicator;
 
+	UPROPERTY(BlueprintReadOnly)
+	FText SpeedString;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 PlayerPlace;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -42,5 +48,7 @@ protected:
 private:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	void UpdateHUDStrings();
 	//void PushHandbrake(const FInputActionValue& Value);
 };

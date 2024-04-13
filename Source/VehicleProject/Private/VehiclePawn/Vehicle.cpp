@@ -4,6 +4,8 @@
 #include "VehiclePawn/VehicleController.h"
 #include "VehiclePawn/VMovementComponent.h"
 
+#define LOCTEXT_NAMESPACE "Vehicle"
+
 AVehicle::AVehicle()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -38,6 +40,8 @@ void AVehicle::BeginPlay()
 void AVehicle::Tick(float Delta)
 {
 	Super::Tick(Delta);
+
+	UpdateHUDStrings();
 }
 
 void AVehicle::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -63,3 +67,17 @@ void AVehicle::MoveRight(float Value)
 		MovementComp->SetSteeringThrow(Value);
 	}
 }
+
+void AVehicle::UpdateHUDStrings()
+{
+	if (MovementComp == nullptr)
+	{
+		return;
+	}
+
+	int32 RoundSpeedValue = MovementComp->GetVelocity().Length();
+
+	SpeedString = FText::Format(LOCTEXT("SpeedFormat", "{0} km/h"), FText::AsNumber(RoundSpeedValue));
+}
+
+#undef LOCTEXT_NAMESPACE
