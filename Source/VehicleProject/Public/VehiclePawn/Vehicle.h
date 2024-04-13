@@ -35,15 +35,16 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UVMovementComponentReplicator* MovementReplicator;
 
-	UPROPERTY(BlueprintReadOnly)
-	FText SpeedString;
-
-	UPROPERTY(BlueprintReadWrite)
-	int32 PlayerPlace;
+	FText GetSpeed() { return SpeedString; }
+	int32 GetPlayerPlace() { return PlayerPlace; }
+	FString GetPlayerName() { return PlayerName; }
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerName")
+	FString PlayerName;
 
 private:
 	void MoveForward(float Value);
@@ -51,4 +52,11 @@ private:
 
 	void UpdateHUDStrings();
 	//void PushHandbrake(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	FText SpeedString;
+
+	int32 PlayerPlace;
 };

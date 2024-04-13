@@ -3,8 +3,9 @@
 #include "Camera/CameraComponent.h"
 #include "VehiclePawn/VehicleController.h"
 #include "VehiclePawn/VMovementComponent.h"
-
-#define LOCTEXT_NAMESPACE "Vehicle"
+#include "Enviroment/FInishPoint.h"
+#include "VehicleGameState.h"
+#include "Kismet/GameplayStatics.h"
 
 AVehicle::AVehicle()
 {
@@ -35,6 +36,8 @@ AVehicle::AVehicle()
 void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CarMesh->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::OnOverlap);
 }
 
 void AVehicle::Tick(float Delta)
@@ -67,7 +70,7 @@ void AVehicle::MoveRight(float Value)
 		MovementComp->SetSteeringThrow(Value);
 	}
 }
-
+#define LOCTEXT_NAMESPACE "Vehicle"
 void AVehicle::UpdateHUDStrings()
 {
 	if (MovementComp == nullptr)
@@ -79,5 +82,23 @@ void AVehicle::UpdateHUDStrings()
 
 	SpeedString = FText::Format(LOCTEXT("SpeedFormat", "{0} km/h"), FText::AsNumber(RoundSpeedValue));
 }
-
 #undef LOCTEXT_NAMESPACE
+
+void AVehicle::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AFInishPoint* OverlapedActor = Cast<AFInishPoint>(OtherActor);
+
+	if (OverlapedActor != nullptr)
+	{
+		AGameStateBase* GameState = UGameplayStatics::GetGameState(this);
+		if (GameState != nullptr)
+		{
+			AVehicleGameState* VehicleGameState = Cast<AVehicleGameState>(GameState);
+
+			if (VehicleGameState != nullptr)
+			{
+				VehicleGameState->MarkFinishPlayer(PlayerName);
+			}
+		}
+	}
+}

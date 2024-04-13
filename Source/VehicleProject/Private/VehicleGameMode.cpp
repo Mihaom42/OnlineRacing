@@ -55,4 +55,10 @@ void AVehicleGameMode::StartGame() const
 
 void AVehicleGameMode::EndGame()
 {
+	AVehicleHUD* VehicleHUD = Cast<AVehicleHUD>(HUDClass.GetDefaultObject());
+
+	if (VehicleHUD != nullptr)
+	{
+		//VehicleHUD->ShowGameOverWidget();
+	}
 }

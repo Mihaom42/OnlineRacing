@@ -48,7 +48,7 @@ void UVMovementComponent::SimulateMove(const FVehicleMovement& Move)
 
 	UpdateLocationFromVelocity(Move.DeltaTime);
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Move.Throttle: %f"), Move.Throttle));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("Move.Throttle: %f"), Move.Throttle));
 }
 
 FVehicleMovement UVMovementComponent::CreateMove(float DeltaTime)

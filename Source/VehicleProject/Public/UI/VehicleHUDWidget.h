@@ -8,6 +8,7 @@
 
 class UTextBlock;
 class UButton;
+class UGameOverWidget;
 
 UCLASS()
 class VEHICLEPROJECT_API UVehicleHUDWidget : public UUserWidget
@@ -23,6 +24,8 @@ public:
 	void UpdateCountdownValue(FText Value);
 	void UpdatePlayerPlace(FText Value);
 
+	void ShowGameOver();
+
 	void StartCountdown();
 	int32 GetCountdownValue() { return Seconds; }
 
@@ -35,6 +38,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* PlaceTextValue;
+
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UGameOverWidget* GameOverWidget;
 
 private:
 	FTimerHandle GameStartTimer;

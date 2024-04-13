@@ -4,6 +4,8 @@
 #include "UI/VehicleHUD.h"
 #include "UI/VehicleHUDWidget.h"
 #include "VehiclePawn/Vehicle.h"
+#include "Kismet/GameplayStatics.h"
+#include "VehicleGameState.h"
 
 void AVehicleHUD::BeginPlay()
 {
@@ -25,6 +27,13 @@ void AVehicleHUD::BeginPlay()
 	{
 		HUDWidget->AddToViewport();
 	}
+
+	AGameStateBase* GameState = UGameplayStatics::GetGameState(this);
+
+	if (GameState != nullptr)
+	{
+		VehicleGameState = Cast<AVehicleGameState>(GameState);
+	}
 }
 
 void AVehicleHUD::Tick(float DeltaSeconds)
@@ -40,12 +49,28 @@ void AVehicleHUD::DrawHUD()
 
 	if (Vehicle != nullptr && HUDWidget != nullptr)
 	{
-		HUDWidget->UpdateSpeedValue(Vehicle->SpeedString);
+		HUDWidget->UpdateSpeedValue(Vehicle->GetSpeed());
 		//HUDWidget->UpdatePlayerPlace(FText::AsNumber(Vehicle->PlayerPlace));
 	}
 
 	if (HUDWidget != nullptr)
 	{
 		HUDWidget->UpdateCountdownValue(FText::FromString(FString::Printf(TEXT("%i"), HUDWidget->GetCountdownValue())));
+	}
+
+	if (VehicleGameState != nullptr)
+	{
+		if (VehicleGameState->IsGameOver())
+		{
+			HUDWidget->ShowGameOver();
+		}
+	}
+}
+
+void AVehicleHUD::ShowGameOverWidget()
+{
+	if (HUDWidget != nullptr)
+	{
+		HUDWidget->ShowGameOver();
 	}
 }

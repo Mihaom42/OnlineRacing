@@ -14,9 +14,14 @@ class VEHICLEPROJECT_API AVehicleGameState : public AGameState
 {
 	GENERATED_BODY()
 	
-protected:
+public:
+	AVehicleGameState();
 
+	bool IsGameOver() { return bGameOver; }
+	void MarkFinishPlayer(FString PlayerName);
+
+protected:
+	bool bGameOver;
 	bool bFirstFinished;
 	bool bSecondFinished;
-	bool bGameover{ false };
 };
