@@ -59,3 +59,11 @@ void UVehicleHUDWidget::ShowGameOver()
 		GameOverWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
+
+void UVehicleHUDWidget::HideGameOver()
+{
+	if (GameOverWidget != nullptr)
+	{
+		GameOverWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+}

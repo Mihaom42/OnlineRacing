@@ -20,8 +20,18 @@ public:
 	bool IsGameOver() { return bGameOver; }
 	void MarkFinishPlayer(FString PlayerName);
 
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+	void RestartGame();
+
 protected:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UPROPERTY(Replicated)
 	bool bGameOver;
+
+	UPROPERTY(Replicated)
 	bool bFirstFinished;
+
+	UPROPERTY(Replicated)
 	bool bSecondFinished;
 };

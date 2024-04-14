@@ -25,6 +25,7 @@ public:
 	void UpdatePlayerPlace(FText Value);
 
 	void ShowGameOver();
+	void HideGameOver();
 
 	void StartCountdown();
 	int32 GetCountdownValue() { return Seconds; }

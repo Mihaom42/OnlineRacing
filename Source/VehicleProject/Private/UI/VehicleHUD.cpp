@@ -64,13 +64,9 @@ void AVehicleHUD::DrawHUD()
 		{
 			HUDWidget->ShowGameOver();
 		}
-	}
-}
-
-void AVehicleHUD::ShowGameOverWidget()
-{
-	if (HUDWidget != nullptr)
-	{
-		HUDWidget->ShowGameOver();
+		else
+		{
+			HUDWidget->HideGameOver();
+		}
 	}
 }

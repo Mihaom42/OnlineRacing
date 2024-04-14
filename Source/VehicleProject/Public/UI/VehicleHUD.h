@@ -23,8 +23,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess = "true"), Category = Widgets)
 	TSubclassOf<UVehicleHUDWidget> HUDWidgetClass;
 
-	void ShowGameOverWidget();
-
 private:
 	UVehicleHUDWidget* HUDWidget;
 

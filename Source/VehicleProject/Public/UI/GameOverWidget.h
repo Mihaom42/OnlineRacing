@@ -19,6 +19,12 @@ public:
 
 	void NativeConstruct() override;
 
+	UFUNCTION()
+	void RestartGame();
+
+	UFUNCTION()
+	void QuitGame();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* GameOverText;

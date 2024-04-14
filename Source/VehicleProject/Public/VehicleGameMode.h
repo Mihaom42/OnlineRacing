@@ -6,9 +6,6 @@
 #include "GameFramework/GameMode.h"
 #include "VehicleGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class VEHICLEPROJECT_API AVehicleGameMode : public AGameMode
 {
