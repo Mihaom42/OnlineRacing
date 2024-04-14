@@ -53,13 +53,13 @@ void AVehicleHUD::DrawHUD()
 		//HUDWidget->UpdatePlayerPlace(FText::AsNumber(Vehicle->PlayerPlace));
 	}
 
-	if (HUDWidget != nullptr)
-	{
-		HUDWidget->UpdateCountdownValue(FText::FromString(FString::Printf(TEXT("%i"), HUDWidget->GetCountdownValue())));
-	}
-
 	if (VehicleGameState != nullptr)
 	{
+		if (HUDWidget != nullptr)
+		{
+			HUDWidget->UpdateCountdownValue(VehicleGameState->GetCountdownTimeValue());
+		}
+
 		if (VehicleGameState->IsGameOver())
 		{
 			HUDWidget->ShowGameOver();

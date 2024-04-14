@@ -21,14 +21,13 @@ public:
 	void NativeConstruct() override;
 
 	void UpdateSpeedValue(FText Value);
-	void UpdateCountdownValue(FText Value);
+	void UpdateCountdownValue(int32 Value);
 	void UpdatePlayerPlace(FText Value);
 
 	void ShowGameOver();
 	void HideGameOver();
 
-	void StartCountdown();
-	int32 GetCountdownValue() { return Seconds; }
+	//void StartCountdown();
 
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -42,8 +41,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UGameOverWidget* GameOverWidget;
-
-private:
-	FTimerHandle GameStartTimer;
-	int32 Seconds;
 };

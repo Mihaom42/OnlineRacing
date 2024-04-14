@@ -15,6 +15,30 @@ AVehicleGameState::AVehicleGameState()
 	bFirstFinished = false;
 	bSecondFinished = false;
 	bGameOver = false;
+	CountdownValue = 3;
+}
+
+void AVehicleGameState::BeginPlay()
+{
+	StartCountdown();
+}
+
+void AVehicleGameState::StartCountdown()
+{
+	UWorld* World = GetWorld();
+
+	if (World != nullptr)
+	{
+		World->GetTimerManager().SetTimer(GameStartTimer, this, &AVehicleGameState::DecreaseCountdownValue, 1.0f, true, 1.0f);
+	}
+}
+
+void AVehicleGameState::DecreaseCountdownValue()
+{
+	if (CountdownValue >= 1)
+	{
+		CountdownValue--;
+	}
 }
 
 void AVehicleGameState::MarkFinishPlayer(FString PlayerName)
@@ -51,6 +75,7 @@ void AVehicleGameState::RestartGame_Implementation()
 		bFirstFinished = false;
 		bSecondFinished = false;
 		bGameOver = false;
+		CountdownValue = 3;
 
 		for (APlayerState* PlayerState : PlayerArray)
 		{
@@ -58,8 +83,8 @@ void AVehicleGameState::RestartGame_Implementation()
 
 			PlayerState->GetPlayerController();
 
-			//AActor* Actor = PlayerState->GetOwner();
 			ReturnPlayersToStartPoint();
+			StartCountdown();
 		}
 	}
 }
@@ -87,4 +112,5 @@ void AVehicleGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(AVehicleGameState, bGameOver);
 	DOREPLIFETIME(AVehicleGameState, bFirstFinished);
 	DOREPLIFETIME(AVehicleGameState, bSecondFinished);
+	DOREPLIFETIME(AVehicleGameState, CountdownValue);
 }

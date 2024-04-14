@@ -19,13 +19,18 @@ public:
 	bool IsGameOver() { return bGameOver; }
 	void MarkFinishPlayer(FString PlayerName);
 
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(Server, Reliable)
 	void RestartGame();
 
 	void ReturnPlayersToStartPoint();
 
+	int32 GetCountdownTimeValue() { return CountdownValue; }
+
+	void StartCountdown();
+
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void BeginPlay() override;
 
 	UPROPERTY(Replicated)
 	bool bGameOver;
@@ -35,4 +40,13 @@ protected:
 
 	UPROPERTY(Replicated)
 	bool bSecondFinished;
+
+	UPROPERTY(Replicated)
+	int32 CountdownValue;
+
+private:
+	//UFUNCTION(Server, Reliable, BlueprintCallable)
+	void DecreaseCountdownValue();
+
+	FTimerHandle GameStartTimer;
 };

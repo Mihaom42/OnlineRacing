@@ -48,6 +48,13 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 				VehiclePlayer->SetOwner(VehicleController);
 			}
 		}
+
+		AVehicleGameState* VehicleGameState = Cast<AVehicleGameState>(GameStateClass.GetDefaultObject());
+
+		if (VehicleGameState != nullptr)
+		{
+			VehicleGameState->StartCountdown();
+		}
 	}
 }
 

@@ -7,18 +7,11 @@
 
 UVehicleHUDWidget::UVehicleHUDWidget(const FObjectInitializer& ObjectInitializer) :Super(ObjectInitializer)
 {
-	Seconds = 3;
+
 }
 
 void UVehicleHUDWidget::NativeConstruct()
 {
-	UWorld* World = GetWorld();
-
-	if (World != nullptr)
-	{
-		World->GetTimerManager().SetTimer(GameStartTimer, this, &UVehicleHUDWidget::StartCountdown, 1.0f, true, 1.0f);
-	}
-
 	if (GameOverWidget != nullptr)
 	{
 		GameOverWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -30,26 +23,25 @@ void UVehicleHUDWidget::UpdateSpeedValue(FText Value)
 	SpeedTextValue->SetText(Value);
 }
 
-void UVehicleHUDWidget::UpdateCountdownValue(FText Value)
+void UVehicleHUDWidget::UpdateCountdownValue(int32 Value)
 {
-	CountdownTextValue->SetText(Value);
+	if (Value < 1)
+	{
+		CountdownTextValue->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+
+	if (Value == 3 && !CountdownTextValue->IsVisible())
+	{
+		CountdownTextValue->SetVisibility(ESlateVisibility::Visible);
+	}
+
+	CountdownTextValue->SetText(FText::FromString(FString::Printf(TEXT("%i"), Value)));
 }
 
 void UVehicleHUDWidget::UpdatePlayerPlace(FText Value)
 {
 	PlaceTextValue->SetText(Value);
-}
-
-void UVehicleHUDWidget::StartCountdown()
-{
-	if (Seconds > 1)
-	{
-		Seconds--;
-	}
-	else
-	{
-		CountdownTextValue->SetVisibility(ESlateVisibility::Hidden);
-	}
 }
 
 void UVehicleHUDWidget::ShowGameOver()
@@ -69,5 +61,6 @@ void UVehicleHUDWidget::HideGameOver()
 		GameOverWidget->SetVisibility(ESlateVisibility::Hidden);
 		PlaceTextValue->SetVisibility(ESlateVisibility::Visible);
 		SpeedTextValue->SetVisibility(ESlateVisibility::Visible);
+		//CountdownTextValue->SetVisibility(ESlateVisibility::Visible);
 	}
 }
