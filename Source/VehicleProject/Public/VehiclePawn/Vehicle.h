@@ -39,12 +39,17 @@ public:
 	int32 GetPlayerPlace() { return PlayerPlace; }
 	FString GetPlayerName() { return PlayerName; }
 
+	FVector GetPlayerStartPosition() { return StartPosition; }
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerName")
 	FString PlayerName;
+
+	UPROPERTY(BlueprintReadOnly)
+	FVector StartPosition;
 
 private:
 	void MoveForward(float Value);

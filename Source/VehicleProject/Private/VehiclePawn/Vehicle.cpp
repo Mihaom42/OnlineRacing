@@ -38,6 +38,7 @@ void AVehicle::BeginPlay()
 	Super::BeginPlay();
 
 	CarMesh->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::OnOverlap);
+	StartPosition = GetTransform().GetTranslation();
 }
 
 void AVehicle::Tick(float Delta)

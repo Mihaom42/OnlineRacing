@@ -5,8 +5,10 @@
 #include "VehicleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "VehiclePawn/VehiclePlayerState.h"
+#include "VehiclePawn/Vehicle.h"
 #include "UI/VehicleHUD.h"
 #include "Net/UnrealNetwork.h"
+#include "Engine/PlayerStartPIE.h"
 
 AVehicleGameState::AVehicleGameState()
 {
@@ -53,6 +55,27 @@ void AVehicleGameState::RestartGame_Implementation()
 		for (APlayerState* PlayerState : PlayerArray)
 		{
 			Cast<AVehiclePlayerState>(PlayerState)->SetPlayAgain(false);
+
+			PlayerState->GetPlayerController();
+
+			//AActor* Actor = PlayerState->GetOwner();
+			ReturnPlayersToStartPoint();
+		}
+	}
+}
+
+void AVehicleGameState::ReturnPlayersToStartPoint()
+{
+	TArray<AActor*> PawnArray;
+	UGameplayStatics::GetAllActorsOfClass(this, AVehicle::StaticClass(), PawnArray);
+
+	for (AActor* Actor : PawnArray)
+	{
+		AVehicle* VehiclePlayer = Cast<AVehicle>(Actor);
+
+		if (VehiclePlayer != nullptr)
+		{
+			VehiclePlayer->SetActorLocation(VehiclePlayer->GetPlayerStartPosition());
 		}
 	}
 }

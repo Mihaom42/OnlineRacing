@@ -6,9 +6,8 @@
 #include "GameFramework/GameState.h"
 #include "VehicleGameState.generated.h"
 
-/**
- * 
- */
+class AVehicle;
+
 UCLASS()
 class VEHICLEPROJECT_API AVehicleGameState : public AGameState
 {
@@ -22,6 +21,8 @@ public:
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void RestartGame();
+
+	void ReturnPlayersToStartPoint();
 
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
