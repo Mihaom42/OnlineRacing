@@ -49,6 +49,11 @@ void AVehicleGameState::RestartGame_Implementation()
 		bFirstFinished = false;
 		bSecondFinished = false;
 		bGameOver = false;
+
+		for (APlayerState* PlayerState : PlayerArray)
+		{
+			Cast<AVehiclePlayerState>(PlayerState)->SetPlayAgain(false);
+		}
 	}
 }
 

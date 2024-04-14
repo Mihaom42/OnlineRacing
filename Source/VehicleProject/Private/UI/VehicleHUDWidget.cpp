@@ -57,6 +57,8 @@ void UVehicleHUDWidget::ShowGameOver()
 	if (GameOverWidget != nullptr)
 	{
 		GameOverWidget->SetVisibility(ESlateVisibility::Visible);
+		PlaceTextValue->SetVisibility(ESlateVisibility::Hidden);
+		SpeedTextValue->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
@@ -65,5 +67,7 @@ void UVehicleHUDWidget::HideGameOver()
 	if (GameOverWidget != nullptr)
 	{
 		GameOverWidget->SetVisibility(ESlateVisibility::Hidden);
+		PlaceTextValue->SetVisibility(ESlateVisibility::Visible);
+		SpeedTextValue->SetVisibility(ESlateVisibility::Visible);
 	}
 }
