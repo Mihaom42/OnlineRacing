@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FInishPoint.generated.h"
+#include "Checkpoint.generated.h"
 
 UCLASS()
-class VEHICLEPROJECT_API AFInishPoint : public AActor
+class VEHICLEPROJECT_API ACheckpoint : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AFInishPoint();
+	ACheckpoint();
 
 protected:
 	virtual void BeginPlay() override;

@@ -26,6 +26,8 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 	TArray<AActor*> PawnArray;
 	UGameplayStatics::GetAllActorsOfClass(this, AVehicle::StaticClass(), PawnArray);
 
+	AActor* Actor = UGameplayStatics::CreatePlayer(AVehicle::StaticClass());
+
 	if (PawnArray.Num() > 0)
 	{
 		TArray<AActor*> ControllerArray;
