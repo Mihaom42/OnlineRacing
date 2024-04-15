@@ -26,8 +26,6 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 	TArray<AActor*> PawnArray;
 	UGameplayStatics::GetAllActorsOfClass(this, AVehicle::StaticClass(), PawnArray);
 
-	AActor* Actor = UGameplayStatics::CreatePlayer(AVehicle::StaticClass());
-
 	if (PawnArray.Num() > 0)
 	{
 		TArray<AActor*> ControllerArray;
@@ -49,13 +47,6 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 				VehicleController->Possess(VehiclePlayer);
 				VehiclePlayer->SetOwner(VehicleController);
 			}
-		}
-
-		AVehicleGameState* VehicleGameState = Cast<AVehicleGameState>(GameStateClass.GetDefaultObject());
-
-		if (VehicleGameState != nullptr)
-		{
-			VehicleGameState->StartCountdown();
 		}
 	}
 }
