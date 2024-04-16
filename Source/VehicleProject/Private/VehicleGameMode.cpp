@@ -21,6 +21,12 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
+	//TODO: Find another way to get logged players
+	GetWorld()->GetTimerManager().SetTimer(UserTimer, this, &AVehicleGameMode::StartGame, 0.2f, false, 0.1f);
+}
+
+void AVehicleGameMode::StartGame() const
+{
 	TArray<AActor*> PawnArray;
 	UGameplayStatics::GetAllActorsOfClass(this, AVehicle::StaticClass(), PawnArray);
 
@@ -29,30 +35,22 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 		TArray<AActor*> ControllerArray;
 		UGameplayStatics::GetAllActorsOfClass(this, AVehicleController::StaticClass(), ControllerArray);
 
-		for (int Index = 0; Index < PawnArray.Num(); Index++)
+		for (int Index = 0; Index < ControllerArray.Num(); Index++)
 		{
 			AVehicle* VehiclePlayer = Cast<AVehicle>(PawnArray[Index]);
-			
+
 			if (VehiclePlayer != nullptr && !VehiclePlayer->IsPawnControlled())
 			{
 				AVehicleController* VehicleController = Cast<AVehicleController>(ControllerArray[Index]);
-				
+
 				if (VehicleController == nullptr)
 				{
 					return;
 				}
-			
+
 				VehicleController->Possess(VehiclePlayer);
 				VehiclePlayer->SetOwner(VehicleController);
 			}
 		}
 	}
-}
-
-void AVehicleGameMode::StartGame() const
-{
-}
-
-void AVehicleGameMode::EndGame()
-{
 }

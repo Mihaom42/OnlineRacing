@@ -41,6 +41,7 @@ void AVehicleHUD::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
+//TODO: Maybe it is worth to find another way to update data 
 void AVehicleHUD::DrawHUD()
 {
 	Super::DrawHUD();

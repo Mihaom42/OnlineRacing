@@ -15,8 +15,8 @@ public:
 	AVehicleGameMode();
 
 	void StartGame() const;
-	void EndGame();
 
 protected:
+	FTimerHandle UserTimer;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 };

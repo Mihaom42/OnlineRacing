@@ -42,6 +42,12 @@ void AVehicleGameState::DecreaseCountdownValue()
 
 void AVehicleGameState::MarkFinishPlayer(FString PlayerName)
 {
+	if (PlayerArray.Num() == 1)
+	{
+		bGameOver = true;
+		return;
+	}
+
 	if (PlayerName == "FirstPlayer")
 	{
 		bFirstFinished = true;
@@ -69,7 +75,7 @@ void AVehicleGameState::RestartGame_Implementation()
 		}
 	}
 
-	if (PlayersReady == 2)
+	if (PlayersReady == PlayerArray.Num())
 	{
 		bFirstFinished = false;
 		bSecondFinished = false;

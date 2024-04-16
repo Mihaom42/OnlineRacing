@@ -42,6 +42,7 @@ void ASplineActor::Tick(float DeltaSeconds)
 	//CollectRemainigDisance();
 }
 
+//TODO: Optimize this logic
 void ASplineActor::CollectRemainigDistance()
 {
 	TArray<AActor*> PawnArray;
