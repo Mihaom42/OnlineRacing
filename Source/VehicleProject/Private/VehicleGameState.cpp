@@ -8,7 +8,6 @@
 #include "VehiclePawn/Vehicle.h"
 #include "UI/VehicleHUD.h"
 #include "Net/UnrealNetwork.h"
-#include "Engine/PlayerStartPIE.h"
 
 AVehicleGameState::AVehicleGameState()
 {

@@ -7,12 +7,10 @@
 #include "VehiclePawn/Vehicle.h"
 #include "VehiclePawn/VehiclePlayerState.h"
 #include "UI/VehicleHUD.h"
-#include "UI/VehicleHUDWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 AVehicleGameMode::AVehicleGameMode()
 {
-	//DefaultPawnClass = AVehicle::StaticClass();
 	PlayerControllerClass = AVehicleController::StaticClass();
 	GameStateClass = AVehicleGameState::StaticClass();
 	HUDClass = AVehicleHUD::StaticClass();
@@ -53,7 +51,6 @@ void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
 
 void AVehicleGameMode::StartGame() const
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("StartGame")));
 }
 
 void AVehicleGameMode::EndGame()

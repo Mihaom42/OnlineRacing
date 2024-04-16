@@ -4,7 +4,6 @@
 #include "UI/GameOverWidget.h"
 #include "Components/Button.h"
 #include "VehiclePawn/VehiclePlayerState.h"
-#include "Kismet/GameplayStatics.h"
 
 UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {

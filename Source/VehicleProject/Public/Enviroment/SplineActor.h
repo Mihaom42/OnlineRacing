@@ -43,5 +43,5 @@ private:
 	TArray<float> Distances;
 
 	float GetDistanceAlongSplineForWorldLocation(FVector Location) const;
-	void CollectRemainigDisance();
+	void CollectRemainigDistance();
 };

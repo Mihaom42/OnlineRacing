@@ -61,6 +61,5 @@ void UVehicleHUDWidget::HideGameOver()
 		GameOverWidget->SetVisibility(ESlateVisibility::Hidden);
 		PlaceTextValue->SetVisibility(ESlateVisibility::Visible);
 		SpeedTextValue->SetVisibility(ESlateVisibility::Visible);
-		//CountdownTextValue->SetVisibility(ESlateVisibility::Visible);
 	}
 }

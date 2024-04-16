@@ -3,7 +3,6 @@
 
 #include "Enviroment/Checkpoint.h"
 #include "Components/BoxComponent.h"
-#include "VehiclePawn/Vehicle.h"
 
 // Sets default values
 ACheckpoint::ACheckpoint()
@@ -17,8 +16,6 @@ ACheckpoint::ACheckpoint()
 // Called when the game starts or when spawned
 void ACheckpoint::BeginPlay()
 {
-	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
-
 	Super::BeginPlay();	
 }
 
@@ -26,15 +23,4 @@ void ACheckpoint::BeginPlay()
 void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	AVehicle* OverlapPawn = Cast<AVehicle>(OtherActor);
-
-	if (OverlapPawn != nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("FINISH!")));
-	}
 }

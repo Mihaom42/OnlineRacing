@@ -22,7 +22,7 @@ void ASplineActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorld()->GetTimerManager().SetTimer(UserTimer, this, &ASplineActor::CollectRemainigDisance, 1.0f, true, 0.5f);
+	GetWorld()->GetTimerManager().SetTimer(UserTimer, this, &ASplineActor::CollectRemainigDistance, 0.2f, true, 0.1f);
 }
 
 void ASplineActor::OnConstruction(const FTransform& Transform)
@@ -42,7 +42,7 @@ void ASplineActor::Tick(float DeltaSeconds)
 	//CollectRemainigDisance();
 }
 
-void ASplineActor::CollectRemainigDisance()
+void ASplineActor::CollectRemainigDistance()
 {
 	TArray<AActor*> PawnArray;
 	UGameplayStatics::GetAllActorsOfClass(this, AVehicle::StaticClass(), PawnArray);
@@ -74,11 +74,11 @@ void ASplineActor::CollectRemainigDisance()
 		}
 	}
 
-	/*if (Distances.Num() >= 1)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("1 player: %i"), FMath::RoundToInt(Distances[0])));
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("2 player: %i"), FMath::RoundToInt(Distances[1])));
-	}*/
+	//if (Distances.Num() >= 1)
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("1 player: %i"), FMath::RoundToInt(Distances[0])));
+	//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("2 player: %i"), FMath::RoundToInt(Distances[1])));
+	//}
 
 	Distances.Empty();
 }
