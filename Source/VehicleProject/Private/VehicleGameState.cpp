@@ -38,6 +38,13 @@ void AVehicleGameState::DecreaseCountdownValue()
 	{
 		CountdownValue--;
 	}
+	else
+	{
+		if (UWorld* World = GetWorld())
+		{
+			World->GetTimerManager().PauseTimer(GameStartTimer);
+		}
+	}
 }
 
 void AVehicleGameState::MarkFinishPlayer(FString PlayerName)
@@ -85,9 +92,6 @@ void AVehicleGameState::RestartGame_Implementation()
 		for (APlayerState* PlayerState : PlayerArray)
 		{
 			Cast<AVehiclePlayerState>(PlayerState)->SetPlayAgain(false);
-
-			PlayerState->GetPlayerController();
-
 			ReturnPlayersToStartPoint();
 			StartCountdown();
 		}
