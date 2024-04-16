@@ -5,7 +5,6 @@
 
 AVehicleController::AVehicleController()
 {
-
 }
 
 void AVehicleController::BeginPlay()

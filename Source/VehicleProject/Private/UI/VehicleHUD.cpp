@@ -50,7 +50,7 @@ void AVehicleHUD::DrawHUD()
 	if (Vehicle != nullptr && HUDWidget != nullptr)
 	{
 		HUDWidget->UpdateSpeedValue(Vehicle->GetSpeed());
-		//HUDWidget->UpdatePlayerPlace(FText::AsNumber(Vehicle->PlayerPlace));
+		HUDWidget->UpdatePlayerPlace(FText::AsNumber(Vehicle->GetPlayerPlace()));
 	}
 
 	if (VehicleGameState != nullptr)

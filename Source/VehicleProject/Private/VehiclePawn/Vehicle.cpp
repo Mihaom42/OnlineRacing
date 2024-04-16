@@ -31,6 +31,8 @@ AVehicle::AVehicle()
 
 	MovementComp = CreateDefaultSubobject<UVMovementComponent>(TEXT("MovementComponent"));
 	MovementReplicator = CreateDefaultSubobject<UVMovementComponentReplicator>(TEXT("MovementReplicator"));
+
+	PlayerPlace = 1;
 }
 
 void AVehicle::BeginPlay()

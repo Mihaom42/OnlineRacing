@@ -37,6 +37,7 @@ public:
 
 	FText GetSpeed() { return SpeedString; }
 	int32 GetPlayerPlace() { return PlayerPlace; }
+	void SetPlayerPlace(int32 Value) { PlayerPlace = Value; }
 	FString GetPlayerName() { return PlayerName; }
 
 	FVector GetPlayerStartPosition() { return StartPosition; }

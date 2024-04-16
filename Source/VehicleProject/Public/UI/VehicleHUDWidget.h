@@ -27,8 +27,6 @@ public:
 	void ShowGameOver();
 	void HideGameOver();
 
-	//void StartCountdown();
-
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* SpeedTextValue;

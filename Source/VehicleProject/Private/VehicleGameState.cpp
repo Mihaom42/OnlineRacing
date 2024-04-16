@@ -101,6 +101,7 @@ void AVehicleGameState::ReturnPlayersToStartPoint()
 		if (VehiclePlayer != nullptr)
 		{
 			VehiclePlayer->SetActorLocation(VehiclePlayer->GetPlayerStartPosition());
+			VehiclePlayer->SetActorRotation(FRotator(0.f, 0.f, 0.f));
 		}
 	}
 }
