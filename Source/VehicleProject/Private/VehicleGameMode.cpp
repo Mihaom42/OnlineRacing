@@ -17,14 +17,6 @@ AVehicleGameMode::AVehicleGameMode()
 	PlayerStateClass = AVehiclePlayerState::StaticClass();
 }
 
-void AVehicleGameMode::PostLogin(APlayerController* NewPlayer)
-{
-	Super::PostLogin(NewPlayer);
-
-	//TODO: Find another way to get logged players
-	GetWorld()->GetTimerManager().SetTimer(UserTimer, this, &AVehicleGameMode::StartGame, 0.2f, false, 0.1f);
-}
-
 void AVehicleGameMode::StartGame() const
 {
 	TArray<AActor*> PawnArray;

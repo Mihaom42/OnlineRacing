@@ -8,6 +8,7 @@
 #include "VehiclePawn/Vehicle.h"
 #include "UI/VehicleHUD.h"
 #include "Net/UnrealNetwork.h"
+#include "VehiclePawn/VehicleController.h"
 
 AVehicleGameState::AVehicleGameState()
 {
@@ -43,6 +44,16 @@ void AVehicleGameState::DecreaseCountdownValue()
 		if (UWorld* World = GetWorld())
 		{
 			World->GetTimerManager().PauseTimer(GameStartTimer);
+		}
+
+		AGameModeBase* GameMode = UGameplayStatics::GetGameMode(this);
+		if (GameMode != nullptr)
+		{
+			AVehicleGameMode* VehicleGameMode = Cast<AVehicleGameMode>(GameMode);
+			if (VehicleGameMode != nullptr)
+			{
+				VehicleGameMode->StartGame();
+			}
 		}
 	}
 }
@@ -91,6 +102,12 @@ void AVehicleGameState::RestartGame_Implementation()
 
 		for (APlayerState* PlayerState : PlayerArray)
 		{
+			AVehicleController* PC = Cast<AVehicleController>(PlayerState->GetPlayerController());
+			if (PC)
+			{
+				PC->UnPossess();
+			}
+
 			Cast<AVehiclePlayerState>(PlayerState)->SetPlayAgain(false);
 			ReturnPlayersToStartPoint();
 			StartCountdown();
